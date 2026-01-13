@@ -1,9 +1,16 @@
+
 import asyncio
+import os  # Tizim o'zgaruvchilari bilan ishlash uchun
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 
-# Bot tokeningizni @BotFather'dan olib, bu yerga yozing
-TOKEN = "8551813992:AAEfrfMFkYENIH-90-4vvg6n3QMbZNkjMZY"
+# Tokenni GitHub Secrets'dan oladi
+# Mahalliy kompyuterda ishlatmoqchi bo'lsangiz, o'rniga "TOKENINGIZNI_YOZING" qo'ying
+TOKEN = os.getenv("8551813992:AAEfrfMFkYENIH-90-4vvg6n3QMbZNkjMZY")
+
+# Agar token topilmasa, bot ishlamaydi (xavfsizlik uchun)
+if not TOKEN:
+    exit("Xatolik: BOT_TOKEN topilmadi! GitHub Secrets'ni tekshiring.")
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
@@ -15,8 +22,8 @@ async def start_handler(message: types.Message):
 @dp.message()
 async def calculate_handler(message: types.Message):
     try:
-        # Foydalanuvchi yuborgan matnni hisoblash
-        # eval() funksiyasi matematik ifodani yechadi
+        # Xavfsizlik uchun faqat raqamlar va belgilarni tekshirish (ixtiyoriy)
+        # eval() oddiy misollar uchun
         result = eval(message.text)
         await message.reply(f"Natija: {result}")
     except Exception:
@@ -24,6 +31,7 @@ async def calculate_handler(message: types.Message):
 
 async def main():
     print("Bot ishga tushdi...")
+    # Botni ishga tushirish (polling)
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
