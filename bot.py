@@ -3,9 +3,9 @@ import os
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 
-# BU YERNI DIQQAT BILAN KO'RING: 
-# os.getenv ichida token emas, nomi bo'lishi kerak!
-TOKEN = os.getenv(""8551813992:AAEfrfMFkYENIH-90-4vvg6n3QMbZNkjMZ")
+# TO'G'RI YO'L: Bu yerga token yozilmaydi! 
+# Faqat GitHub Secrets-dagi nomi yoziladi.
+TOKEN = os.getenv("8551813992:AAEfrfMFkYENIH-90-4vvg6n3QMbZNkjMZY")
 
 if not TOKEN:
     exit("Xatolik: BOT_TOKEN topilmadi! GitHub Secrets'ni tekshiring.")
@@ -15,16 +15,15 @@ dp = Dispatcher()
 
 @dp.message(Command("start"))
 async def start_handler(message: types.Message):
-    await message.answer("Salom! Menga misol yuboring (masalan: 25 * 4), men uni hisoblab beraman.")
+    await message.answer("Salom! Menga misol yuboring, men uni hisoblab beraman.")
 
 @dp.message()
 async def calculate_handler(message: types.Message):
     try:
-        # Faqat matematik amallar ekanligini tekshirish xavfsizlik uchun yaxshi
         result = eval(message.text)
         await message.reply(f"Natija: {result}")
     except Exception:
-        await message.reply("Xatolik! Faqat matematik amallarni yuboring (masalan: 10 + 5 / 2).")
+        await message.reply("Xatolik! Faqat matematik amallarni yuboring.")
 
 async def main():
     print("Bot ishga tushdi...")
